@@ -1,0 +1,50 @@
+import pgzrun
+import random
+WIDTH = 800
+HEIGHT = 600
+TITLE = "The bee and the flower"
+score = 0
+bee = Actor("bee")
+bee.pos = (400,300)
+flower = Actor("flower")
+flower.pos = (400,100)
+timeleft = 60
+gameover = False
+def draw():
+  if gameover == True:
+    screen.fill("purple")
+    screen.draw.text("Game Over. Your score is "+str(score),(400,300),color = "black")
+  else:
+    screen.blit("background",(0,0)) 
+    bee.draw() 
+    flower.draw()
+    screen.draw.text("score: "+str(score),(25,25),color = "black")
+    screen.draw.text("Time: "+str(timeleft),(100,25),color = "black")
+
+def update():
+  global score
+  if keyboard.up:
+    bee.y = bee.y - 5
+  if keyboard.down:
+    bee.y = bee.y + 5
+  if keyboard.left:
+    bee.x = bee.x - 5
+  if keyboard.right:
+    bee.x = bee.x + 5
+  if flower.colliderect(bee) and gameover == False:
+    flower.x = random.randint(25,475)
+    flower.y = random.randint(25,475)
+    score += 5
+
+def timer():
+  global timeleft
+  global gameover
+  if timeleft > 0:
+    timeleft -= 1
+  else:
+    gameover = True
+
+clock.schedule_interval(timer,1)
+
+
+pgzrun.go()
